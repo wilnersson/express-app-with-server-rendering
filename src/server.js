@@ -36,7 +36,13 @@ app.use('/', router)
 
 // Error handling.
 app.use((error, req, res, next) => {
-  const viewData = { stackTrace: error.stack }
+  if (error.status === 404) {
+    return res
+      .status(error.status)
+      .render('errors/404')
+  }
+
+  const viewData = { stackTrace: error.stack || 'No stack trace.' }
 
   res
     .status(error.status || 500)
