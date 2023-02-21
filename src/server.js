@@ -26,7 +26,7 @@ app.use((error, req, res, next) => {
   }
 })
 
-app.listen('8080', () => {
-  console.log('Server up! Go to http://localhost:' + '8080')
+app.listen(process.env.PORT, () => {
+  console.log('Server up! Go to http://localhost:' + process.env.PORT)
   console.log('Ctrl-C to terminate...')
 })
