@@ -4,26 +4,43 @@
  */
 
 import express from 'express'
-import { dirname } from 'node:path'
+import expressLayouts from 'express-ejs-layouts'
+import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import logger from 'morgan'
 import { router } from './routes/router.js'
 
 const currentDirectoryFullPath = dirname(fileURLToPath(import.meta.url))
+const baseURL = process.env.BASE_URL || '/'
+
 const app = express()
 
 app.use(logger('dev'))
+
+app.set('view engine', 'ejs')
+app.set('views', join(currentDirectoryFullPath, 'views'))
+app.use(expressLayouts)
+app.set('layout', join(currentDirectoryFullPath, 'views', 'layout', 'default'))
+
+app.use(express.urlencoded({ extended: false }))
+
+app.use(express.static(join(currentDirectoryFullPath, '..', 'public')))
+
+app.use((req, res, next) => {
+  res.locals.baseURL = baseURL
+
+  next()
+})
+
 app.use('/', router)
 
 // Error handling.
 app.use((error, req, res, next) => {
-  if (error.status === 404) {
-    return res.status(404).end()
-  }
+  const viewData = { stackTrace: error.stack }
 
-  if (req.app.get('env') !== 'development') {
-    return res.status(500).end()
-  }
+  res
+    .status(error.status || 500)
+    .render('errors/500', { viewData })
 })
 
 app.listen(process.env.PORT, () => {
