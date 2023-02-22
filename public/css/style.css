@@ -42,6 +42,11 @@ main {
   margin: 0.5rem;
 }
 
+th, td {
+  text-align: left;
+  padding-left: 1rem;
+}
+
 footer {
   grid-area: footer;
   padding: 0.5rem;
