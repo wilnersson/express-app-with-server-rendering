@@ -29,6 +29,7 @@ body {
 
 nav {
   grid-area: navigation;
+  background-color: lightgray;
 }
 
 nav ul li {
@@ -38,6 +39,7 @@ nav ul li {
 
 main {
   grid-area: main;
+  margin: 0.5rem;
 }
 
 footer {

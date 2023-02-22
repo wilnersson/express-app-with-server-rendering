@@ -1,0 +1,15 @@
+<h1>Your movies</h1>
+<table>
+  <tr>
+    <th>Movie Title</th>
+    <th>Release year</th>
+    <th>Movie duration</th>
+  </tr>
+  <% viewData.movies.forEach((movie) => { %>
+    <tr>
+      <td><%= movie.title %></td>
+      <td><%= movie.year %></td>
+      <td><%= movie.durationInMinutes %> minutes</td>
+    </tr>
+  <% }) %>
+</table>
