@@ -1,3 +1,7 @@
 {
-  "extends": "@lnu"
+  "root": true,
+  "extends": "@lnu",
+  "rules": {
+    "require-jsdoc": "off"
+  }
 }

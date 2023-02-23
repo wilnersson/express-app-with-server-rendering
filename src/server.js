@@ -9,47 +9,55 @@ import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import logger from 'morgan'
 import { router } from './routes/router.js'
+import { dbConnection } from './config/mongoose.js'
 
-const currentDirectoryFullPath = dirname(fileURLToPath(import.meta.url))
-const baseURL = process.env.BASE_URL || '/'
+try {
+  await dbConnection(process.env.DB_CONNECTION_STRING)
 
-const app = express()
+  const currentDirectoryFullPath = dirname(fileURLToPath(import.meta.url))
+  const baseURL = process.env.BASE_URL || '/'
 
-app.use(logger('dev'))
+  const app = express()
 
-app.set('view engine', 'ejs')
-app.set('views', join(currentDirectoryFullPath, 'views'))
-app.use(expressLayouts)
-app.set('layout', join(currentDirectoryFullPath, 'views', 'layout', 'default'))
+  app.use(logger('dev'))
 
-app.use(express.urlencoded({ extended: false }))
+  app.set('view engine', 'ejs')
+  app.set('views', join(currentDirectoryFullPath, 'views'))
+  app.use(expressLayouts)
+  app.set('layout', join(currentDirectoryFullPath, 'views', 'layout', 'default'))
 
-app.use(express.static(join(currentDirectoryFullPath, '..', 'public')))
+  app.use(express.urlencoded({ extended: false }))
 
-app.use((req, res, next) => {
-  res.locals.baseURL = baseURL
+  app.use(express.static(join(currentDirectoryFullPath, '..', 'public')))
 
-  next()
-})
+  app.use((req, res, next) => {
+    res.locals.baseURL = baseURL
 
-app.use('/', router)
+    next()
+  })
 
-// Error handling.
-app.use((error, req, res, next) => {
-  if (error.status === 404) {
-    return res
-      .status(error.status)
-      .render('errors/404')
-  }
+  app.use('/', router)
 
-  const viewData = { stackTrace: error.stack || 'No stack trace.' }
+  // Error handling.
+  app.use((error, req, res, next) => {
+    if (error.status === 404) {
+      return res
+        .status(error.status)
+        .render('errors/404')
+    }
 
-  res
-    .status(error.status || 500)
-    .render('errors/500', { viewData })
-})
+    const viewData = { stackTrace: error.stack || 'No stack trace.' }
 
-app.listen(process.env.PORT, () => {
-  console.log('Server up! Go to http://localhost:' + process.env.PORT)
-  console.log('Ctrl-C to terminate...')
-})
+    res
+      .status(error.status || 500)
+      .render('errors/500', { viewData })
+  })
+
+  app.listen(process.env.PORT, () => {
+    console.log('Server up! Go to http://localhost:' + process.env.PORT)
+    console.log('Ctrl-C to terminate...')
+  })
+} catch (error) {
+  console.error(error)
+  process.exitCode = 1
+}
