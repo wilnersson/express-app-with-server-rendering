@@ -31,7 +31,6 @@ export class AbstractMongooseRepository {
    * @returns {Promise<object>} - A promise that resolves to the newly inserted document.
    */
   async insert (document) {
-    const insertedDocument = this.#model.create(document)
-    return insertedDocument
+    return this.#model.create(document)
   }
 }

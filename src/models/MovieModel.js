@@ -19,10 +19,23 @@ const schema = new mongoose.Schema({
     max: 500
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toObject: {
+    virtuals: true,
+    /**
+     * Transformation to perform when going from document to POJO.
+     *
+     * @param {object} doc - The original document.
+     * @param {object} ret - The resulting POJO.
+     */
+    transform: (doc, ret) => {
+      delete ret.__v
+      delete ret._id
+    }
+  }
 })
 
-schema.virtual('id').get(() => {
+schema.virtual('id').get(function () {
   return this._id.toHexString()
 })
 

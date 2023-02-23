@@ -43,7 +43,7 @@ export class MoviesController {
         durationInMinutes: req.body.durationInMinutes
       })
 
-      this.renderMoviesPage(req, res, next)
+      await this.renderMoviesPage(req, res, next)
     } catch (error) {
       console.error(error)
       next(error)
