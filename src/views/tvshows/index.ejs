@@ -1,0 +1,39 @@
+<h1>Your TV-shows</h1>
+<table>
+  <tr>
+    <th>Show Title</th>
+    <th>Release year</th>
+    <th>Nr. of seasons</th>
+    <th>Nr. of episodes</th>
+    <th>Avg. episodes per season</th>
+  </tr>
+  <% viewData.tvShows.forEach((show) => { %>
+    <tr>
+      <td><%= show.title %></td>
+      <td><%= show.year %></td>
+      <td><%= show.nrSeasons %></td>
+      <td><%= show.nrEpisodes %></td>
+      <td><%= show.avgEpisodesPerSeason %></td>
+    </tr>
+  <% }) %>
+</table>
+<h2>Add new show</h2>
+<form action="./tvshows" method="POST">
+  <label>
+    Title
+    <input type="text" name="title" />
+  </label>
+  <label>
+    Year
+    <input type="number" name="year" />
+  </label>
+  <label>
+    Nr. of seasons
+    <input type="number" name="nrSeasons" />
+  </label>
+  <label>
+    Nr. of episodes
+    <input type="number" name="nrEpisodes" />
+  </label>
+  <input type="submit" value="Add movie" />
+</form>
