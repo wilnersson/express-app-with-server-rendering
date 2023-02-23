@@ -24,37 +24,19 @@ export class MoviesService {
   /**
    * Fetches all Movies.
    *
-   * @returns {Promise} - A promise that resolves to an array of Movie objects.
+   * @returns {Promise<object>} - A promise that resolves to an array of Movie objects.
    */
   async get () {
-    return new Promise((resolve, reject) => {
-      resolve([
-        {
-          title: 'Armageddon',
-          year: 1998,
-          durationInMinutes: 151
-        },
-        {
-          title: 'Harry Potter and the Order of the Phoenix',
-          year: 2007,
-          durationInMinutes: 138
-        },
-        {
-          title: 'The Matrix',
-          year: 1999,
-          durationInMinutes: 136
-        }
-      ])
-    })
+    return this.#repository.get()
   }
 
   /**
    * Inserts a new document.
    *
    * @param {object} movieData - Valid movie data.
-   * @returns {object} - Newly inserted movie document.
+   * @returns {Promise<object>} - A promise that resolves to the newly inserted movie document.
    */
   async insert (movieData) {
-    return await this.#repository.insert(movieData)
+    return this.#repository.insert(movieData)
   }
 }

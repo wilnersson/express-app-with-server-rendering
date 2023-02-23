@@ -36,15 +36,17 @@ export class MoviesController {
    * @param {Function} next - Express next middleware function.
    */
   async addMovie (req, res, next) {
-    const addedMovie = await this.#moviesService.insert({
-      title: req.body.title,
-      year: req.body.year,
-      durationInMinutes: req.body.durationInMinutes
-    })
+    try {
+      await this.#moviesService.insert({
+        title: req.body.title,
+        year: req.body.year,
+        durationInMinutes: req.body.durationInMinutes
+      })
 
-    // Debug
-    console.log(addedMovie)
-
-    this.renderMoviesPage(req, res, next)
+      this.renderMoviesPage(req, res, next)
+    } catch (error) {
+      console.error(error)
+      next(error)
+    }
   }
 }

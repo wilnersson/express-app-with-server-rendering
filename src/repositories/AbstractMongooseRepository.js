@@ -16,13 +16,22 @@ export class AbstractMongooseRepository {
   }
 
   /**
+   * Gets and returns all documents from the DB.
+   *
+   * @returns {Promise<object>} - A promise that resolves to an array of documents.
+   */
+  async get () {
+    return this.#model.find()
+  }
+
+  /**
    * Creates a new document and inserts it to the DB.
    *
    * @param {object} document - Document to insert.
-   * @returns {object} - The newly inserted document.
+   * @returns {Promise<object>} - A promise that resolves to the newly inserted document.
    */
   async insert (document) {
-    const insertedDocument = await this.#model.create(document)
+    const insertedDocument = this.#model.create(document)
     return insertedDocument
   }
 }

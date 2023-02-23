@@ -12,7 +12,7 @@ const schema = new mongoose.Schema({
     min: 1900,
     max: 2100
   },
-  lengthInMinutes: {
+  durationInMinutes: {
     type: Number,
     required: false,
     min: 1,
