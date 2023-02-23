@@ -4,10 +4,23 @@
  * @author Henrik Wilnersson <hw222nq@student.lnu.se>
  */
 
+import { MoviesRepository } from '../repositories/MoviesRepository.js'
+
 /**
  * Class for the Movies service.
  */
 export class MoviesService {
+  #repository
+
+  /**
+   * Constructor for MoviesService.
+   *
+   * @param {MoviesRepository} repository - Repository for the service to use.
+   */
+  constructor (repository = new MoviesRepository()) {
+    this.#repository = repository
+  }
+
   /**
    * Fetches all Movies.
    *
@@ -33,5 +46,15 @@ export class MoviesService {
         }
       ])
     })
+  }
+
+  /**
+   * Inserts a new document.
+   *
+   * @param {object} movieData - Valid movie data.
+   * @returns {object} - Newly inserted movie document.
+   */
+  async insert (movieData) {
+    return await this.#repository.insert(movieData)
   }
 }

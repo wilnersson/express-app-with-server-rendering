@@ -5,3 +5,4 @@ export const router = express.Router()
 const controller = new MoviesController()
 
 router.get('/', (req, res, next) => controller.renderMoviesPage(req, res, next))
+router.post('/', (req, res, next) => controller.addMovie(req, res, next))
