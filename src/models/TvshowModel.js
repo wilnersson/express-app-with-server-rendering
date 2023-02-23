@@ -47,7 +47,7 @@ schema.virtual('id').get(function () {
 
 schema.virtual('avgEpisodesPerSeason').get(function () {
   if (this.nrSeasons > 0 && this.nrEpisodes > 0) {
-    return this.nrEpisodes / this.nrSeasons
+    return (this.nrEpisodes / this.nrSeasons).toFixed(1)
   }
 
   return 'N/A'
