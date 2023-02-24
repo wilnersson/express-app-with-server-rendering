@@ -20,6 +20,8 @@ try {
 
   const app = express()
 
+  app.set('container', container)
+
   app.use(logger('dev'))
 
   app.set('view engine', 'ejs')

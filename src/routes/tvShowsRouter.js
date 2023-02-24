@@ -1,8 +1,14 @@
 import express from 'express'
-import { TvshowsController } from '../controllers/TvshowsController.js'
 
 export const router = express.Router()
-const controller = new TvshowsController()
 
-router.get('/', (req, res, next) => controller.renderTvshowsPage(req, res, next))
-router.post('/', (req, res, next) => controller.addTvShow(req, res, next))
+/**
+ * Resolves a TvshowsController from the IoC container.
+ *
+ * @param {object} req - Express requrest object.
+ * @returns {object} - An instance of TvshowsController.
+ */
+const resolveController = (req) => req.app.get('container').resolveService('TvshowsController')
+
+router.get('/', (req, res, next) => resolveController(req).renderTvshowsPage(req, res, next))
+router.post('/', (req, res, next) => resolveController(req).addTvShow(req, res, next))

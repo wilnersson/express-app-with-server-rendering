@@ -44,11 +44,35 @@ export class IoCContainer {
     const service = this.#services.get(name)
 
     if (service === undefined) {
-      throw new ReferenceError(`No service of the name ${name} is registered in the IoCContainer.`)
+      throw new ReferenceError(`No service of the name ${name} is registered in the IoC container.`)
     }
 
     if (typeof service.definition !== 'function' || service.isType) {
       return service.definition
     }
+
+    if (!service.isSingleton) {
+      return this.#createInstance(service)
+    }
+
+    if (!this.#singletons.has(name)) {
+      const instance = this.#createInstance(service)
+      this.#singletons.set(name, instance)
+    }
+    return this.#singletons.get(name)
+  }
+
+  /**
+   * Creates a new instance based on a service.
+   *
+   * @param {object} service - The service on which to instanciate its definition.
+   * @returns {*} - An instance.
+   */
+  #createInstance (service) {
+    // The magic behind the following lines of code is that it creates
+    // dependent instances recursively.
+    const args = service.dependencies?.map((dependency) => this.resolveService(dependency)) || []
+    /* eslint-disable-next-line new-cap */
+    return new service.definition(...args)
   }
 }
