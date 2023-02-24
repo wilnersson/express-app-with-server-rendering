@@ -23,9 +23,14 @@ export class MoviesController {
    * @param {Function} next - Express next middleware function.
    */
   async renderMoviesPage (req, res, next) {
-    const viewData = { movies: await this.#moviesService.get() }
+    try {
+      const viewData = { movies: await this.#moviesService.get() }
 
-    res.render('movies/index', { viewData })
+      res.render('movies/index', { viewData })
+    } catch (error) {
+      console.log(error)
+      next(error)
+    }
   }
 
   /**

@@ -10,6 +10,11 @@ export class HomeController {
    * @param {Function} next - Express next middleware function.
    */
   renderStartPage (req, res, next) {
-    res.render('start')
+    try {
+      res.render('start')
+    } catch (error) {
+      console.error(error)
+      next(error)
+    }
   }
 }
