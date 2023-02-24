@@ -10,9 +10,10 @@ import { fileURLToPath } from 'node:url'
 import logger from 'morgan'
 import { router } from './routes/router.js'
 import { dbConnection } from './config/mongoose.js'
+import { container } from './config/bootstrap.js'
 
 try {
-  await dbConnection(process.env.DB_CONNECTION_STRING)
+  await dbConnection(container.resolveService('connectionString'))
 
   const currentDirectoryFullPath = dirname(fileURLToPath(import.meta.url))
   const baseURL = process.env.BASE_URL || '/'
@@ -53,8 +54,8 @@ try {
       .render('errors/500', { viewData })
   })
 
-  app.listen(process.env.PORT, () => {
-    console.log('Server up! Go to http://localhost:' + process.env.PORT)
+  app.listen(container.resolveService('listenPort'), () => {
+    console.log('Server up! Go to http://localhost:' + container.resolveService('listenPort'))
     console.log('Ctrl-C to terminate...')
   })
 } catch (error) {
