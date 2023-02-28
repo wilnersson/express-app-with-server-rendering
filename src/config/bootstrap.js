@@ -23,7 +23,8 @@ iocContainer.registerService('MoviesServiceSingleton', MoviesService, {
   isSingleton: true
 })
 iocContainer.registerService('MoviesController', MoviesController, {
-  dependencies: ['MoviesServiceSingleton']
+  dependencies: ['MoviesServiceSingleton'],
+  isSingleton: true
 })
 
 iocContainer.registerService('TvshowModelType', TvshowModel, { isType: true })
@@ -36,7 +37,8 @@ iocContainer.registerService('TvshowsServiceSingleton', TvshowsService, {
   isSingleton: true
 })
 iocContainer.registerService('TvshowsController', TvshowsController, {
-  dependencies: ['TvshowsServiceSingleton']
+  dependencies: ['TvshowsServiceSingleton'],
+  isSingleton: true
 })
 
 export const container = Object.freeze(iocContainer)
