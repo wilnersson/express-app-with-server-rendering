@@ -49,6 +49,7 @@ export class TvshowsController {
         nrEpisodes: req.body.nrEpisodes
       })
 
+      // WRONG!!! Use redirect to follow PRG pattern.
       await this.renderTvshowsPage(req, res, next)
     } catch (error) {
       console.error(error)

@@ -48,6 +48,7 @@ export class MoviesController {
         durationInMinutes: req.body.durationInMinutes
       })
 
+      // WRONG!!! Use redirect to follow PRG pattern.
       await this.renderMoviesPage(req, res, next)
     } catch (error) {
       console.error(error)
